@@ -1,13 +1,13 @@
 version: "3.9"
 
 services:
-  triton:
-    #runtime: nvidia
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - capabilities: [gpu]
+#  triton:
+#    #runtime: nvidia
+#    deploy:
+#      resources:
+#        reservations:
+#          devices:
+#            - capabilities: [gpu]
 
   mlserver:
     #runtime: nvidia

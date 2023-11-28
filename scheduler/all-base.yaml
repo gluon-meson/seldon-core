@@ -29,26 +29,26 @@ services:
       - SELDON_SERVER_TYPE=mlserver
       - SELDON_SERVER_CAPABILITIES=mlserver,alibi-detect,alibi-explain,huggingface,lightgbm,mlflow,python,sklearn,spark-mlib,xgboost,lead
 
-  agent-triton:
-    build:
-      dockerfile: scheduler/Dockerfile.agent
-      context: ..
-    image: "${AGENT_IMAGE_AND_TAG}"
-    environment:
-      - SELDON_OVERCOMMIT_PERCENTAGE=${AGENT_OVERCOMMIT_PERCENTAGE}
-      - SELDON_REVERSE_PROXY_HTTP_PORT=${SELDON_TRITON_REVERSE_PROXY_HTTP_PORT}
-      - SELDON_REVERSE_PROXY_GRPC_PORT=${SELDON_TRITON_REVERSE_PROXY_GRPC_PORT}
-      - SELDON_DRAINER_PORT=${SELDON_TRITON_DRAINER_PORT}
-      - SELDON_SERVER_HTTP_PORT=${SERVER_TRITON_HTTP_PORT}
-      - SELDON_SERVER_GRPC_PORT=${SERVER_TRITON_GRPC_PORT}
-      - SELDON_DEBUG_GRPC_PORT=${AGENT_TRITON_DEBUG_PORT}
-      - SELDON_SCHEDULER_HOST=scheduler
-      - SELDON_SCHEDULER_PORT=${SCHEDULER_AGENT_PORT}
-      - MEMORY_REQUEST=${AGENT_MEMORY_REQUEST}
-      - SELDON_ENVOY_HOST=envoy
-      - SELDON_ENVOY_PORT=${ENVOY_DATA_PORT}
-      - SELDON_SERVER_TYPE=triton
-      - SELDON_SERVER_CAPABILITIES=triton,dali,fil,onnx,openvino,python,pytorch,tensorflow,tensorrt
+#  agent-triton:
+#    build:
+#      dockerfile: scheduler/Dockerfile.agent
+#      context: ..
+#    image: "${AGENT_IMAGE_AND_TAG}"
+#    environment:
+#      - SELDON_OVERCOMMIT_PERCENTAGE=${AGENT_OVERCOMMIT_PERCENTAGE}
+#      - SELDON_REVERSE_PROXY_HTTP_PORT=${SELDON_TRITON_REVERSE_PROXY_HTTP_PORT}
+#      - SELDON_REVERSE_PROXY_GRPC_PORT=${SELDON_TRITON_REVERSE_PROXY_GRPC_PORT}
+#      - SELDON_DRAINER_PORT=${SELDON_TRITON_DRAINER_PORT}
+#      - SELDON_SERVER_HTTP_PORT=${SERVER_TRITON_HTTP_PORT}
+#      - SELDON_SERVER_GRPC_PORT=${SERVER_TRITON_GRPC_PORT}
+#      - SELDON_DEBUG_GRPC_PORT=${AGENT_TRITON_DEBUG_PORT}
+#      - SELDON_SCHEDULER_HOST=scheduler
+#      - SELDON_SCHEDULER_PORT=${SCHEDULER_AGENT_PORT}
+#      - MEMORY_REQUEST=${AGENT_MEMORY_REQUEST}
+#      - SELDON_ENVOY_HOST=envoy
+#      - SELDON_ENVOY_PORT=${ENVOY_DATA_PORT}
+#      - SELDON_SERVER_TYPE=triton
+#      - SELDON_SERVER_CAPABILITIES=triton,dali,fil,onnx,openvino,python,pytorch,tensorflow,tensorrt
 
   dataflow:
     build:
@@ -163,17 +163,17 @@ services:
       - RCLONE_CONFIG_S3_ENDPOINT=${RCLONE_CONFIG_S3_ENDPOINT}
       - RCLONE_CONFIG_S3_ENV_AUTH=false
 
-  rclone-triton:
-    build:
-      dockerfile: scheduler/Dockerfile.rclone
-      context: ..
-    image: "${RCLONE_IMAGE_AND_TAG}"
-    command:
-      - "rcd"
-      - "--rc-no-auth"
-      - "--config=/rclone/rclone.conf"
-      - "--rc-addr=0.0.0.0:${RCLONE_TRITON_HTTP_PORT}"
-      - "--verbose"
+#  rclone-triton:
+#    build:
+#      dockerfile: scheduler/Dockerfile.rclone
+#      context: ..
+#    image: "${RCLONE_IMAGE_AND_TAG}"
+#    command:
+#      - "rcd"
+#      - "--rc-no-auth"
+#      - "--config=/rclone/rclone.conf"
+#      - "--rc-addr=0.0.0.0:${RCLONE_TRITON_HTTP_PORT}"
+#      - "--verbose"
 
   scheduler:
     user: "${UID_GID}"
@@ -212,22 +212,22 @@ services:
         target: /opt/conda/lib/python3.10/site-packages/nvidia/cuda_runtime/lib/libssl.so.1.1
 
 
-  triton:
-    user: "${UID_GID}"
-    image: "${SERVER_TRITON_IMAGE_AND_TAG}"
-    command:
-      - "/opt/tritonserver/bin/tritonserver"
-      - "--model-repository=/mnt/agent/models"
-      - "--http-port=${SERVER_TRITON_HTTP_PORT}"
-      - "--grpc-port=${SERVER_TRITON_GRPC_PORT}"
-      - "--model-control-mode=explicit"
-      - "--log-verbose=${TRITON_LOG_LEVEL:-0}"
-    shm_size: 1g
-    ulimits:
-      memlock: -1
-      stack: 67108864
-    environment:
-      - LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libtcmalloc.so.4
+#  triton:
+#    user: "${UID_GID}"
+#    image: "${SERVER_TRITON_IMAGE_AND_TAG}"
+#    command:
+#      - "/opt/tritonserver/bin/tritonserver"
+#      - "--model-repository=/mnt/agent/models"
+#      - "--http-port=${SERVER_TRITON_HTTP_PORT}"
+#      - "--grpc-port=${SERVER_TRITON_GRPC_PORT}"
+#      - "--model-control-mode=explicit"
+#      - "--log-verbose=${TRITON_LOG_LEVEL:-0}"
+#    shm_size: 1g
+#    ulimits:
+#      memlock: -1
+#      stack: 67108864
+#    environment:
+#      - LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libtcmalloc.so.4
 
   zookeeper:
     image: ${ZK_IMAGE_AND_TAG}

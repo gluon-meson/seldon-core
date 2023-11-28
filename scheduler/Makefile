@@ -310,7 +310,7 @@ pull-all:
 .PHONY: pull-servers
 pull-servers:
 	docker pull ${MLSERVER_IMG}
-	docker pull ${TRITON_IMG}
+#	docker pull ${TRITON_IMG}
 
 .PHONY: stop-all
 stop-all:
