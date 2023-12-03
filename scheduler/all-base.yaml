@@ -8,26 +8,26 @@ volumes:
 
 services:
 
-  agent-mlserver:
-    build:
-      dockerfile: scheduler/Dockerfile.agent
-      context: ..
-    image: "${AGENT_IMAGE_AND_TAG}"
-    environment:
-      - SELDON_OVERCOMMIT_PERCENTAGE=${AGENT_OVERCOMMIT_PERCENTAGE}
-      - SELDON_REVERSE_PROXY_HTTP_PORT=${SELDON_MLSERVER_REVERSE_PROXY_HTTP_PORT}
-      - SELDON_REVERSE_PROXY_GRPC_PORT=${SELDON_MLSERVER_REVERSE_PROXY_GRPC_PORT}
-      - SELDON_DRAINER_PORT=${SELDON_MLSERVER_DRAINER_PORT}
-      - SELDON_SERVER_HTTP_PORT=${SERVER_MLSERVER_HTTP_PORT}
-      - SELDON_SERVER_GRPC_PORT=${SERVER_MLSERVER_GRPC_PORT}
-      - SELDON_DEBUG_GRPC_PORT=${AGENT_MLSERVER_DEBUG_PORT}
-      - SELDON_SCHEDULER_HOST=scheduler
-      - SELDON_SCHEDULER_PORT=${SCHEDULER_AGENT_PORT}
-      - MEMORY_REQUEST=${AGENT_MEMORY_REQUEST}
-      - SELDON_ENVOY_HOST=envoy
-      - SELDON_ENVOY_PORT=${ENVOY_DATA_PORT}
-      - SELDON_SERVER_TYPE=mlserver
-      - SELDON_SERVER_CAPABILITIES=mlserver,alibi-detect,alibi-explain,huggingface,lightgbm,mlflow,python,sklearn,spark-mlib,xgboost,lead
+#  agent-mlserver:
+#    build:
+#      dockerfile: scheduler/Dockerfile.agent
+#      context: ..
+#    image: "${AGENT_IMAGE_AND_TAG}"
+#    environment:
+#      - SELDON_OVERCOMMIT_PERCENTAGE=${AGENT_OVERCOMMIT_PERCENTAGE}
+#      - SELDON_REVERSE_PROXY_HTTP_PORT=${SELDON_MLSERVER_REVERSE_PROXY_HTTP_PORT}
+#      - SELDON_REVERSE_PROXY_GRPC_PORT=${SELDON_MLSERVER_REVERSE_PROXY_GRPC_PORT}
+#      - SELDON_DRAINER_PORT=${SELDON_MLSERVER_DRAINER_PORT}
+#      - SELDON_SERVER_HTTP_PORT=${SERVER_MLSERVER_HTTP_PORT}
+#      - SELDON_SERVER_GRPC_PORT=${SERVER_MLSERVER_GRPC_PORT}
+#      - SELDON_DEBUG_GRPC_PORT=${AGENT_MLSERVER_DEBUG_PORT}
+#      - SELDON_SCHEDULER_HOST=scheduler
+#      - SELDON_SCHEDULER_PORT=${SCHEDULER_AGENT_PORT}
+#      - MEMORY_REQUEST=${AGENT_MEMORY_REQUEST}
+#      - SELDON_ENVOY_HOST=envoy
+#      - SELDON_ENVOY_PORT=${ENVOY_DATA_PORT}
+#      - SELDON_SERVER_TYPE=mlserver
+#      - SELDON_SERVER_CAPABILITIES=mlserver,alibi-detect,alibi-explain,huggingface,lightgbm,mlflow,python,sklearn,spark-mlib,xgboost,lead
 
 #  agent-triton:
 #    build:
@@ -150,18 +150,18 @@ services:
   prometheus:
     image: "${PROMETHEUS_IMAGE_AND_TAG}"
 
-  rclone-mlserver:
-    build:
-      dockerfile: scheduler/Dockerfile.rclone
-      context: ..
-    image: "${RCLONE_IMAGE_AND_TAG}"
-    environment:
-      - RCLONE_CONFIG_S3_TYPE=${RCLONE_CONFIG_S3_TYPE}
-      - RCLONE_CONFIG_S3_PROVIDER=${RCLONE_CONFIG_S3_PROVIDER}
-      - RCLONE_CONFIG_S3_ACCESS_KEY_ID=${RCLONE_CONFIG_S3_ACCESS_KEY_ID}
-      - RCLONE_CONFIG_S3_SECRET_ACCESS_KEY=${RCLONE_CONFIG_S3_SECRET_ACCESS_KEY}
-      - RCLONE_CONFIG_S3_ENDPOINT=${RCLONE_CONFIG_S3_ENDPOINT}
-      - RCLONE_CONFIG_S3_ENV_AUTH=false
+#  rclone-mlserver:
+#    build:
+#      dockerfile: scheduler/Dockerfile.rclone
+#      context: ..
+#    image: "${RCLONE_IMAGE_AND_TAG}"
+#    environment:
+#      - RCLONE_CONFIG_S3_TYPE=${RCLONE_CONFIG_S3_TYPE}
+#      - RCLONE_CONFIG_S3_PROVIDER=${RCLONE_CONFIG_S3_PROVIDER}
+#      - RCLONE_CONFIG_S3_ACCESS_KEY_ID=${RCLONE_CONFIG_S3_ACCESS_KEY_ID}
+#      - RCLONE_CONFIG_S3_SECRET_ACCESS_KEY=${RCLONE_CONFIG_S3_SECRET_ACCESS_KEY}
+#      - RCLONE_CONFIG_S3_ENDPOINT=${RCLONE_CONFIG_S3_ENDPOINT}
+#      - RCLONE_CONFIG_S3_ENV_AUTH=false
 
 #  rclone-triton:
 #    build:
@@ -186,30 +186,30 @@ services:
       context: ..
     image: "${SCHEDULER_IMAGE_AND_TAG}"
 
-  mlserver:
-    user: "${MLSERVER_UID_GID}"
-    image: "${SERVER_MLSERVER_IMAGE_AND_TAG}"
-    command:
-      - "mlserver"
-      - "start"
-      - "/mnt/agent/models"
-    environment:
-      - MLSERVER_LOAD_MODELS_AT_STARTUP=${MLSERVER_LOAD_MODELS_AT_STARTUP}
-      - MLSERVER_GRPC_MAX_MESSAGE_LENGTH=1048576000 # 1000MB (1000 * 1024 * 1024)
-      - MLSERVER_METRICS_PORT=${SERVER_MLSERVER_METRICS_PORT}
-      - MLSERVER_TRACING_SERVER=${OTEL_EXPORTER_OTLP_ENDPOINT}
-      - MLSERVER_DEBUG=TRUE
-      - NVIDIA_VISIBLE_DEVICES=all
-    volumes:
-      - type: bind
-        source: ${OPS_ROOT_PATH}/mlflow_model_scripts/mlflow_model_script_common.py
-        target: /opt/conda/lib/python3.10/site-packages/mlflow_model_script_common.py
-      - type: bind
-        source: ${OPS_ROOT_PATH}/mlflow_model_scripts/openssl/openssl-1.1.1o/libcrypto.so.1.1
-        target: /opt/conda/lib/python3.10/site-packages/nvidia/cuda_runtime/lib/libcrypto.so.1.1
-      - type: bind
-        source: ${OPS_ROOT_PATH}/mlflow_model_scripts/openssl/openssl-1.1.1o/libssl.so.1.1
-        target: /opt/conda/lib/python3.10/site-packages/nvidia/cuda_runtime/lib/libssl.so.1.1
+#  mlserver:
+#    user: "${MLSERVER_UID_GID}"
+#    image: "${SERVER_MLSERVER_IMAGE_AND_TAG}"
+#    command:
+#      - "mlserver"
+#      - "start"
+#      - "/mnt/agent/models"
+#    environment:
+#      - MLSERVER_LOAD_MODELS_AT_STARTUP=${MLSERVER_LOAD_MODELS_AT_STARTUP}
+#      - MLSERVER_GRPC_MAX_MESSAGE_LENGTH=1048576000 # 1000MB (1000 * 1024 * 1024)
+#      - MLSERVER_METRICS_PORT=${SERVER_MLSERVER_METRICS_PORT}
+#      - MLSERVER_TRACING_SERVER=${OTEL_EXPORTER_OTLP_ENDPOINT}
+#      - MLSERVER_DEBUG=TRUE
+#      - NVIDIA_VISIBLE_DEVICES=all
+#    volumes:
+#      - type: bind
+#        source: ${OPS_ROOT_PATH}/mlflow_model_scripts/mlflow_model_script_common.py
+#        target: /opt/conda/lib/python3.10/site-packages/mlflow_model_script_common.py
+#      - type: bind
+#        source: ${OPS_ROOT_PATH}/mlflow_model_scripts/openssl/openssl-1.1.1o/libcrypto.so.1.1
+#        target: /opt/conda/lib/python3.10/site-packages/nvidia/cuda_runtime/lib/libcrypto.so.1.1
+#      - type: bind
+#        source: ${OPS_ROOT_PATH}/mlflow_model_scripts/openssl/openssl-1.1.1o/libssl.so.1.1
+#        target: /opt/conda/lib/python3.10/site-packages/nvidia/cuda_runtime/lib/libssl.so.1.1
 
 
 #  triton:

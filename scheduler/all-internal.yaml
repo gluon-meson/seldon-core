@@ -6,36 +6,36 @@ volumes:
 
 services:
 
-  agent-mlserver:
-    command:
-      - "--log-level"
-      - "debug"
-      - "--config-path"
-      - "/mnt/config"
-      - "--rclone-host"
-      - "rclone-mlserver"
-      - "--inference-host"
-      - "mlserver"
-      - "--agent-host"
-      - "agent-mlserver"
-      - "--server-name"
-      - "mlserver"
-      - "--tracing-config-path"
-      - "/mnt/config/tracing-internal.json"
-    environment:
-      - SELDON_METRICS_PORT=${AGENT_MLSERVER_METRICS_PORT}
-    ports:
-      - "${SELDON_MLSERVER_REVERSE_PROXY_HTTP_PORT}:${SELDON_MLSERVER_REVERSE_PROXY_HTTP_PORT}"
-      - "${SELDON_MLSERVER_REVERSE_PROXY_GRPC_PORT}:${SELDON_MLSERVER_REVERSE_PROXY_GRPC_PORT}"
-      - "${AGENT_MLSERVER_METRICS_PORT}:${AGENT_MLSERVER_METRICS_PORT}"
-      - "${SELDON_MLSERVER_DRAINER_PORT}:${SELDON_MLSERVER_DRAINER_PORT}" 
-    volumes:
-      - type: bind
-        source: ./config
-        target: /mnt/config
-      - type: volume
-        source: models-mlserver
-        target: /mnt/agent
+#  agent-mlserver:
+#    command:
+#      - "--log-level"
+#      - "debug"
+#      - "--config-path"
+#      - "/mnt/config"
+#      - "--rclone-host"
+#      - "rclone-mlserver"
+#      - "--inference-host"
+#      - "mlserver"
+#      - "--agent-host"
+#      - "agent-mlserver"
+#      - "--server-name"
+#      - "mlserver"
+#      - "--tracing-config-path"
+#      - "/mnt/config/tracing-internal.json"
+#    environment:
+#      - SELDON_METRICS_PORT=${AGENT_MLSERVER_METRICS_PORT}
+#    ports:
+#      - "${SELDON_MLSERVER_REVERSE_PROXY_HTTP_PORT}:${SELDON_MLSERVER_REVERSE_PROXY_HTTP_PORT}"
+#      - "${SELDON_MLSERVER_REVERSE_PROXY_GRPC_PORT}:${SELDON_MLSERVER_REVERSE_PROXY_GRPC_PORT}"
+#      - "${AGENT_MLSERVER_METRICS_PORT}:${AGENT_MLSERVER_METRICS_PORT}"
+#      - "${SELDON_MLSERVER_DRAINER_PORT}:${SELDON_MLSERVER_DRAINER_PORT}"
+#    volumes:
+#      - type: bind
+#        source: ./config
+#        target: /mnt/config
+#      - type: volume
+#        source: models-mlserver
+#        target: /mnt/agent
 
 #  agent-triton:
 #    command:
@@ -104,14 +104,14 @@ services:
     ports:
       - "9092:9092"
 
-  mlserver:
-    ports:
-      - "${SERVER_MLSERVER_HTTP_PORT}:${SERVER_MLSERVER_HTTP_PORT}"
-      - "${SERVER_MLSERVER_GRPC_PORT}:${SERVER_MLSERVER_GRPC_PORT}"
-    volumes:
-      - type: volume
-        source: models-mlserver
-        target: /mnt/agent
+#  mlserver:
+#    ports:
+#      - "${SERVER_MLSERVER_HTTP_PORT}:${SERVER_MLSERVER_HTTP_PORT}"
+#      - "${SERVER_MLSERVER_GRPC_PORT}:${SERVER_MLSERVER_GRPC_PORT}"
+#    volumes:
+#      - type: volume
+#        source: models-mlserver
+#        target: /mnt/agent
 
   modelgateway:
     command:
@@ -176,13 +176,13 @@ services:
         source: ./config
         target: /etc/prometheus
 
-  rclone-mlserver:
-    ports:
-      - "${RCLONE_MLSERVER_HTTP_PORT}:${RCLONE_MLSERVER_HTTP_PORT}"
-    volumes:
-      - type: volume
-        source: models-mlserver
-        target: /mnt/agent
+#  rclone-mlserver:
+#    ports:
+#      - "${RCLONE_MLSERVER_HTTP_PORT}:${RCLONE_MLSERVER_HTTP_PORT}"
+#    volumes:
+#      - type: volume
+#        source: models-mlserver
+#        target: /mnt/agent
 
 #  rclone-triton:
 #    ports:
