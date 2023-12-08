@@ -282,7 +282,7 @@ endif
 
 DOCKER_COMPOSE_BASE_COMMAND = docker compose --env-file env.all -f all-base.yaml
 ifeq ($(GPU_ENABLED),1)
-	DOCKER_COMPOSE_BASE_COMMAND := $(DOCKER_COMPOSE_BASE_COMMAND) -f all-gpu.yaml
+	DOCKER_COMPOSE_BASE_COMMAND := $(DOCKER_COMPOSE_BASE_COMMAND)
 endif
 
 DOCKER_COMPOSE_INTERNAL = -f all-internal.yaml
